@@ -1,0 +1,220 @@
+﻿/*
+    LESS入門
+    http://tmlife.net/web/less/8-sample-learn-css-less-guide.html    
+    */
+
+/*
+１）example:変数を使ってみる
+*/
+@color:#b6ff00;
+@bg-color:#00ffff;
+
+@main-font:"瀬戸フォント","メイリオ";
+
+body {
+
+    background-color:@color;
+    font-family:@main-font;
+}
+
+div {
+	float:left;
+}
+
+/*
+２） Mixins（ミックスイン）
+ */
+.box-mixins {
+  width: 100px;
+  height: 100px;
+  background-color: @bg-color;
+}
+
+.box1 {
+    /* mixins */
+    .box-mixins;
+}
+
+
+/*
+ ３）Mixinsを関数化
+ */
+.box-largesize {
+	height:100px;
+	width:100px;
+}
+.box-function(@bg-color){
+	color: @bg-color;
+	text-shadow: 2px 2px 2px #aaa;
+}
+.box2 {
+	.box-largesize;
+	.box-function( #666 );
+}
+
+
+/*
+ ４）セレクタをネストする
+ */
+header {
+  h1 {
+    font-size: 25px;
+  }
+  p {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+ 
+section {
+  h1 {
+    font-size: 20px;
+  }
+  p {
+    font-size: 16px;
+    &.special {
+      color: blue;
+      text-shadow: 0px 0px 2px black;
+    }
+  }
+}
+
+
+/*
+    ５）計算式
+ */
+@bg-color3: @bg-color;
+@width: 100px;
+@height: 100px;
+ 
+.box3 {
+  width: @width + 50px;
+  height: @height;
+  margin: 10px;
+  background-color: @bg-color3;
+}
+ 
+#box31 {
+  background-color: @bg-color3 - #444;//引き算は暗くなる
+}
+ 
+#box32 {
+  width: @width*2;
+}
+
+
+/*
+ ６）関数を使用する
+ */
+@bg-color4: red;
+ 
+.box4 {
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  background-color: @bg-color4;
+
+  box-shadow: 2px 2px 2px #aaa;
+}
+ 
+#box41 { background-color: spin(@bg-color4,  60); }
+#box42 { background-color: spin(@bg-color4, 120); }
+#box43 { background-color: spin(@bg-color4, 180); }
+#box44 { background-color: spin(@bg-color4, 240); }
+#box45 { background-color: spin(@bg-color4, 300); }
+#box46 { background-color: spin(@bg-color4, 360); }
+
+
+/*
+    明度を調整する
+    lighten(@color, 10%);     //@colorより10％“明度が高い”色を計算する
+    darken(@color, 10%);     //@colorより10％“明度が低い”色を計算する
+
+    彩度を調整する
+    saturate(@color, 10%);     //@colorより10％“彩度が高い”色を計算する
+    desaturate(@color, 10%);     //@colorより10％“彩度が低い”色を計算する
+
+    色相を調整する
+    spin(@color, 10);     // @colorより10度“色相が大きい”色を計算する
+    spin(@color, -10);     // @colorより10度“色相が小さい”色を計算する
+    
+    透明度を調整する
+    fadein(@color, 10%);      // @colorより10％“透明度が高い”色を計算する
+    fadeout(@color, 10%);     // @colorより10%“透明度が低い”色を計算する
+    fade(@color, 50%);        // @colorの50％の透明度を持つ色を計算する
+
+    */
+@bg-color5:red;
+.box5 {
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  background-color: @bg-color5;
+}
+#box51 { background-color: fade(@bg-color5, 10%); }
+#box52 { background-color: fade(@bg-color5, 20%); }
+#box53 { background-color: fade(@bg-color5, 30%); }
+#box54 { background-color: fade(@bg-color5, 40%); }
+#box55 { background-color: fade(@bg-color5, 50%); }
+#box56 { background-color: fade(@bg-color5, 60%); }
+
+
+/*
+    
+•round … 引数の数値を四捨五入
+•ceil … 引数の数値を切り上げ
+•floor … 引数の数値を切り捨て
+•percentage … 引数の浮動小数点数をパーセンテージ化
+   
+ */
+
+@bg-color6: red;
+@size: 1.618px;
+.box6 {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  background-color: @bg-color6;
+}
+ 
+#box61 {
+  width: round(@size)*10;  // 2
+}
+#box62 {
+  width: ceil(@size)*10;   // 2
+}
+#box63 {
+  width: floor(@size)*10;  // 1
+}
+#box64 {
+  width: percentage(0.5);   // 50%
+}
+
+
+/*
+ スコープ
+ HTMLのサンプルはなし
+ */
+.box {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  background-color: @bg-color;
+}
+ 
+header {
+  @bg-color: green;
+  
+  .box {
+    background-color: @bg-color;
+  }
+}
+ 
+section {
+  @bg-color: blue;
+  
+  .box {
+    background-color: @bg-color;
+  }
+}
+
